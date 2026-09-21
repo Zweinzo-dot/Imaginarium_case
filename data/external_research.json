@@ -1,0 +1,38 @@
+[
+  {
+    "id": "R-001",
+    "title": "WHO: physical activity",
+    "date": "2024-06-26",
+    "url": "https://www.who.int/news-room/fact-sheets/detail/physical-activity",
+    "text": "WHO reports that 31% of adults globally do not meet recommended physical activity levels. Its fact sheet describes increasingly sedentary lives associated with motorized transport and screen use at work, in education, and in recreation.",
+    "context": "Publisher: WHO. Global fact sheet, not a Philippine young-professional customer study. Does not establish that commuting causes this cohort's reported difficulties or that they will buy Alaga. Bundled text is an editorial paraphrase, not a verbatim extract.",
+    "hid": "H2"
+  },
+  {
+    "id": "R-002",
+    "title": "Cochrane: general health checks",
+    "date": "2019-01-30",
+    "url": "https://www.cochrane.org/evidence/CD009009_general-health-checks-reducing-illness-and-mortality",
+    "text": "A Cochrane review identified 17 randomized trials of general health checks; 15 reported results covering 251,891 participants. General health checks had little or no effect on all-cause mortality. The review searched for studies through 31 January 2018.",
+    "context": "General adult screening, not an evaluation of Alaga or clinically indicated testing. Challenges equating more testing with health benefit; does not disprove a customer's desire for clarity. Bundled text is an editorial paraphrase, not a verbatim extract.",
+    "hid": "H3"
+  },
+  {
+    "id": "R-003",
+    "title": "Malijan et al.: diabetes care access in Manila",
+    "date": "2024-01-23",
+    "url": "https://journals.plos.org/globalpublichealth/article?id=10.1371/journal.pgph.0002333",
+    "text": "This mixed-methods study examined access to essential diabetes care in Manila during the COVID-19 pandemic. Patients and healthcare workers described disruptions to care, financial and transport barriers, and limits to telemedicine access.",
+    "context": "PLOS Global Public Health; Malijan et al. Pandemic-era diabetes care. The clinical population and exceptional service conditions differ from the proposed Alaga ICP. Does not establish current demand or isolate work-related time pressure. Editorial paraphrase.",
+    "hid": "H6"
+  },
+  {
+    "id": "R-004",
+    "title": "WHO: noncommunicable diseases",
+    "date": "2025-09-25",
+    "url": "https://www.who.int/news-room/fact-sheets/detail/noncommunicable-diseases",
+    "text": "WHO describes noncommunicable diseases as arising from a combination of genetic, physiological, environmental, and behavioral factors. People across age groups are affected. Risk-factor management and accessible primary care are part of the response.",
+    "context": "Global public-health context. Does not show that Alaga's target customers perceive risk, seek guidance, or will pay. Bundled text is an editorial paraphrase, not a verbatim extract.",
+    "hid": "H5"
+  }
+]

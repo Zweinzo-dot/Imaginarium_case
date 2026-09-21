@@ -1,0 +1,32 @@
+[
+  {
+    "id": "clarity-support",
+    "title": "Support: wellness needs clarity",
+    "hypothesis_id": "H3",
+    "stance": "Supports",
+    "text": "I exercise regularly, but I still cannot tell whether my health is improving. I need help understanding what my blood results mean.",
+    "rationale": "Prepared scenario: exercise alone leaves this customer uncertain about underlying health.",
+    "conclusion": "The prepared scenario adds support for a need for clarity beyond exercise habits.",
+    "hypothesis_statement": "Young professionals feel uncertain about health progress because fitness habits alone do not explain their underlying health."
+  },
+  {
+    "id": "direction-pivot",
+    "title": "Pivot: direction is clear, cost blocks action",
+    "hypothesis_id": "H4",
+    "stance": "Contradicts",
+    "text": "I know exactly what to do next after reading my results. I have not booked a consultation because the price is too high, not because I lack direction.",
+    "rationale": "Prepared scenario: the stated barrier is affordability rather than missing direction.",
+    "conclusion": "The prepared scenario challenges a direction-only explanation and suggests testing affordability separately.",
+    "hypothesis_statement": "Young professionals have difficulty choosing what to change because willingness to act outpaces personalized health guidance."
+  },
+  {
+    "id": "concern-retire",
+    "title": "Challenge: no personal health concern",
+    "hypothesis_id": "H5",
+    "stance": "Contradicts",
+    "text": "I did not buy because of a personal health concern. I joined for a workplace wellness requirement and would not have purchased otherwise.",
+    "rationale": "Prepared scenario: purchase was driven by a workplace requirement rather than a personal health concern.",
+    "conclusion": "The prepared scenario challenges personal health concern as the purchase trigger; it does not establish a population-wide result.",
+    "hypothesis_statement": "Young professionals worry about future health risks because a flagged result or family history raises unanswered questions."
+  }
+]

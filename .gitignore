@@ -1,0 +1,17 @@
+.venv/
+venv/
+__pycache__/
+*.py[cod]
+.pytest_cache/
+.streamlit/secrets.toml
+.env
+.env.*
+*.log
+.DS_Store
+Thumbs.db
+# Local research and presentation assets are not part of this MVP.
+/output/
+/tmp/
+/Alaga_Venture_Sprint.pdf
+/Alaga_market_segments_and_learning_plan.md
+/DECK_WORKFLOW.md
