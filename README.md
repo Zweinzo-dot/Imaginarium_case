@@ -1,6 +1,6 @@
 # Alaga Evidence Review
 
-For interviewers: start with [the reviewer walkthrough](REVIEWER_GUIDE.md) and [verification notes](VALIDATION.md). Source and bundled demo artifacts are in this repository. Public hosting is being configured; a live link will be added after signed-out access is verified.
+For interviewers: start with [the reviewer walkthrough](REVIEWER_GUIDE.md) and [verification notes](VALIDATION.md). **[Open the live demo](https://alaga-evidence-review.streamlit.app/)** - no account or API key required. **[Download the project ZIP](artifacts/Alaga_Evidence_Review_MVP.zip)**. The repository is public for interviewer review.
 
 A working Python + Streamlit + Pandas prototype for testing Alaga's early customer hypotheses against what customers **say**, what they **do**, and what external **research** suggests.
 

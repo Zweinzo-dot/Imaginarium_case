@@ -4,7 +4,7 @@ This repository contains Alaga Evidence Review, a working Streamlit prototype fo
 
 ## Access
 
-The repository owner is preparing a public Streamlit Community Cloud deployment. A verified live link will be added to the README after deployment; localhost links only work on the developer's computer.
+**Open [the live demo](https://alaga-evidence-review.streamlit.app/).** No login or installation is required. The [GitHub repository](https://github.com/Zweinzo-dot/Imaginarium_case) is public, and the complete source package is in [artifacts](artifacts/Alaga_Evidence_Review_MVP.zip). Localhost links only work on the computer running the local app.
 
 You can run the full prototype now with Python 3.12:
 
