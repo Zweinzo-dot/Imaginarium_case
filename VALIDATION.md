@@ -4,7 +4,7 @@ Prepared September 21, 2026, for interviewer review.
 
 ## Verified locally
 
-- 52 automated tests pass using Python 3.12 and the pinned requirements.
+- 55 automated tests pass using Python 3.12 and the pinned requirements.
 - Browser checks on the running Streamlit app verified visible summaries, scoped evidence results, semantic chart colors, and sidebar navigation.
 - Tests cover review history, classification invalidation, evidence freshness, contradiction rules, customer import, activity metrics, and scoped filtering.
 - Ask your data excludes Says records when Does + Research is selected. Activity counts deduplicate customers by day. Changing the data or scope marks the displayed query result out of date.
@@ -23,3 +23,7 @@ Prepared September 21, 2026, for interviewer review.
 - Browser checks on the hosted app verified dashboard activity metrics, demo workspace analysis and preliminary H3/H4/H5 findings, and Ask your data's filtered evidence summary and chart. Changing the query type correctly hid stale results until rerun. The daily-active-user query rendered 204 rows with its summary and chart. The sharing dialog confirmed Make this app public is enabled.
 
 Live OpenAI calls and hosted local-Ollama inference were not tested. Ollama on a presenter's PC is not reachable from a Cloud deployment. Upload/review logic is covered by automated tests; a complete hosted upload/review/decision walkthrough was not repeated for this release. Free hosting may sleep between visits; open the app before the interview. Session edits require export to persist.
+
+## Scenario runner update
+
+The suite now includes three scenario-runner tests: all prepared classifications and distinct interpretations, repeat-run deduplication, preserved rejected reviews and edited source text, and the one-click Streamlit UI. All 55 tests passed locally before publication.

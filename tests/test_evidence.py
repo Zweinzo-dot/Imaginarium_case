@@ -804,3 +804,41 @@ class DataWorkbenchTests(unittest.TestCase):
         next(b for b in app.button if b.label=="Run analysis").click().run()
         self.assertFalse(app.exception)
         self.assertIn("Daily active users",app.session_state.ask_result["frame"].columns)
+
+
+class ScenarioRunnerTests(unittest.TestCase):
+    def test_all_scenarios_are_distinct_pending_and_repeat_safe(self):
+        from local_ai import run_demo_scenario,scenarios
+        original=load_demo(); findings=[]
+        for scenario in scenarios():
+            result=run_demo_scenario(original,scenario['id'],original.customers[0].id)
+            story=result.ai_report['scenario_run']; findings.append(story['finding'])
+            a=get(result.assessments,story['assessment_id'])
+            self.assertEqual((a.hypothesis_id,a.stance,a.status),(scenario['hypothesis_id'],scenario['stance'],'Pending'))
+            self.assertEqual(story['after_pending'],story['before_pending']+1)
+            self.assertEqual(result.customers,original.customers)
+            self.assertEqual(result.decisions,original.decisions)
+            again=run_demo_scenario(result,scenario['id'],original.customers[0].id)
+            self.assertEqual(len(again.assessments),len(result.assessments))
+            self.assertEqual(again.ai_report['scenario_run']['new_links'],0)
+        self.assertEqual(len(set(findings)),3)
+        self.assertFalse(any(s.id.startswith('SCENARIO-') for s in original.sources))
+
+    def test_preserves_review_and_rejects_modified_source(self):
+        from local_ai import run_demo_scenario
+        p=load_demo();p=run_demo_scenario(p,'clarity-support',p.customers[0].id)
+        story=p.ai_report['scenario_run'];a=get(p.assessments,story['assessment_id']);a.status='Rejected'
+        again=run_demo_scenario(p,'clarity-support',p.customers[0].id)
+        self.assertEqual(get(again.assessments,a.id).status,'Rejected')
+        get(p.sources,story['source_id']).chunks={'Edited':'Keep my edited passage.'}
+        with self.assertRaises(ValueError):run_demo_scenario(p,'clarity-support',p.customers[0].id)
+        self.assertEqual(get(p.sources,story['source_id']).chunks,{'Edited':'Keep my edited passage.'})
+
+    def test_one_click_ui(self):
+        app=AppTest.from_file('../app.py',default_timeout=30).run()
+        app.sidebar.radio[0].set_value('AI analysis').run()
+        next(b for b in app.button if b.label=='Run selected demo scenario').click().run()
+        self.assertFalse(app.exception)
+        self.assertIn('What changed in this demo',[h.value for h in app.subheader])
+        self.assertEqual(app.session_state.project.ai_report['scenario_run']['new_links'],1)
+        self.assertTrue(any(b.label=='Review this scenario evidence' for b in app.button))

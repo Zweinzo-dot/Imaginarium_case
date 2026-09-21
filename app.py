@@ -206,10 +206,38 @@ def workspace_findings(p,area,full=False):
                     st.button("Open source / review",key=f"finding_{area}_{i}_{aid}",on_click=open_ai_citation,args=(aid,))
 
 
+def demo_scenario_result(p):
+    result=p.ai_report.get('scenario_run')
+    if not result:return
+    with st.container(border=True):
+        st.subheader('What changed in this demo')
+        st.markdown(f"**{result['title']}** · {result['hypothesis_id']} · {result['customer_id']}")
+        st.caption('Prepared scenario interpretation. This is the latest scenario run; earlier scenario evidence remains in the workspace.')
+        st.markdown(f"**Finding:** {result['finding']}")
+        st.markdown(f"**Suggested response:** {result['implication']}")
+        st.markdown(f"**Next test:** {result['test']}")
+        table([{'At scenario run':'Pending links for this hypothesis','Before':str(result['before_pending']),'After':str(result['after_pending'])},
+               {'At scenario run':'Reviewed recommendation','Before':result['before_recommendation'],'After':result['after_recommendation']}])
+        if result['new_links']==0:
+            st.info('This scenario was already applied to this customer. Its existing classification was reused; no duplicate evidence was added.')
+        else:
+            st.success('Added one interview passage and one draft classification. Customer action metrics were not changed.')
+        st.caption('The interpretation changes immediately. Reviewed recommendations depend on approved evidence, so one pending interview does not flip the strategic recommendation. The table is a snapshot at the time of this run.')
+        a=next((a for a in p.assessments if a.id==result['assessment_id']),None)
+        if a:
+            st.write(f"Current classification: **{a.stance} · {a.status}** ({a.id})")
+            st.button('Review this scenario evidence',on_click=open_ai_citation,args=(a.id,))
+        with st.expander('Exact passage added'):
+            st.write(result['quote'])
+            st.caption(f"Source: {result['source_id']} · run at {result['at']}")
+
+
 def ai_analysis_page(p):
     st.header("AI analysis")
     st.write("Analyze interviews, customer actions and research together. AI links evidence to hypotheses and drafts segment conclusions; you decide what to do.")
-    workspace_findings(p,"AI analysis",full=True)
+    if analysis_mode()=='Demo scenarios':demo_scenario_result(p)
+    with st.expander('Overall workspace findings',expanded=not bool(p.ai_report.get('scenario_run'))):
+        workspace_findings(p,"AI analysis",full=True)
     st.subheader("Run or update analysis")
     mode_picker()
     mode=analysis_mode()
@@ -221,8 +249,18 @@ def ai_analysis_page(p):
             help="Includes all active source text, customer attributes and notes, hypotheses and evidence reviews.")
     elif mode=="Demo scenarios":
         st.info("Simulated AI: exact scenario passages return prepared classifications. Other text is left unclassified. No API account needed.")
-        with st.expander("Try a demo input"):
-            scenario=st.selectbox("Prepared scenario",scenarios(),format_func=lambda x:x["title"])
+        st.subheader('Try a scenario')
+        from local_ai import run_demo_scenario, SCENARIO_STORIES
+        scenario=st.selectbox("Prepared scenario",scenarios(),format_func=lambda x:x["title"])
+        st.write(SCENARIO_STORIES[scenario['id']]['finding'])
+        customer=st.selectbox('Scenario customer',[c.id for c in p.customers])
+        st.caption('Run adds the prepared interview, classifies it, and shows the change above. It never approves evidence or saves a decision. Repeating the same scenario/customer does not add duplicates.')
+        if st.button('Run selected demo scenario',type='primary',disabled=not p.customers):
+            try:
+                st.session_state.project=run_demo_scenario(p,scenario['id'],customer)
+                st.rerun()
+            except ValueError as exc:st.error(str(exc))
+        with st.expander("Or download and upload the scenario yourself"):
             st.write(scenario["text"])
             st.download_button("Download interview TXT",scenario["text"],scenario["id"]+".txt","text/plain")
             sample=customer_frame(p.customers[:1]).copy()

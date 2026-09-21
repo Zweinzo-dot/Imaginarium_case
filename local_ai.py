@@ -13,6 +13,57 @@ def scenarios():
     return json.loads((Path(__file__).parent/"data/demo_ai_scenarios.json").read_text(encoding="utf-8-sig"))
 
 
+SCENARIO_STORIES = {
+    'clarity-support': {
+        'finding': 'Clarity is the unmet need, even for someone who already exercises.',
+        'implication': 'Test an offer centered on interpreting results and explaining progress, rather than selling more fitness advice.',
+        'test': 'Show a guided results explanation and check whether the customer can name an appropriate next step.'},
+    'direction-pivot': {
+        'finding': 'The customer understands the next step. Price, not missing direction, is blocking the consultation.',
+        'implication': 'Test affordability as an alternative explanation. More guidance alone may not change booking behavior.',
+        'test': 'Compare booking follow-through after a price or payment-option change, while keeping the guidance the same.'},
+    'concern-retire': {
+        'finding': 'The purchase was requirement-driven, not prompted by a personal health concern.',
+        'implication': 'Separate workplace-compliance buyers from concern-driven buyers before using this purchase as ICP validation.',
+        'test': 'Check whether this customer would buy again without the workplace requirement.'}}
+
+
+def run_demo_scenario(project, scenario_id, customer_id):
+    """Apply one prepared interview without overwriting records or approving evidence."""
+    from datetime import date, timedelta
+    from evidence import Source, get, hypothesis_thesis
+    from ai_workspace import analyze_workspace
+    scenario=next(s for s in scenarios() if s['id']==scenario_id)
+    h=get(project.hypotheses,scenario['hypothesis_id'])
+    get(project.customers,customer_id)
+    if h.statement!=scenario['hypothesis_statement']:
+        raise ValueError('This prepared scenario needs its original hypothesis wording. Your edited hypothesis was preserved; use manual review or a live model instead.')
+    p=project.model_copy(deep=True)
+    sid=f"SCENARIO-{scenario_id}-{customer_id}"
+    existing=next((s for s in p.sources if s.id==sid),None)
+    if existing and (existing.archived or existing.chunks!={'Scenario passage':scenario['text']} or existing.customer_id!=customer_id):
+        raise ValueError('This scenario source was edited or archived. It was preserved; review it in Evidence rather than replacing it.')
+    before=hypothesis_thesis(p,h.id)
+    old_ids={a.id for a in p.assessments}
+    before_count=sum(a.hypothesis_id==h.id and a.status=='Pending' for a in p.assessments)
+    if not existing:
+        p.sources.append(Source(id=sid,title=scenario['title']+' / '+customer_id,kind='Says',category='Initial interview',
+            customer_id=customer_id,chunks={'Scenario passage':scenario['text']},source_date=date.today(),
+            review_on=date.today()+timedelta(days=90),context_version=p.context_version,
+            context='Prepared demo scenario. This passage is fictional and was added by the scenario runner.'))
+    p=analyze_workspace(p,'demo','Prepared scenarios v1',client=DemoClient(),provider='Demo scenarios')
+    links=[a for a in p.assessments if a.source_id==sid and a.hypothesis_id==h.id]
+    if not links:raise ValueError('No scenario link was produced. Your original project is unchanged.')
+    p.ai_report['scenario_run']={
+        'id':scenario_id,'title':scenario['title'],'hypothesis_id':h.id,'customer_id':customer_id,
+        'source_id':sid,'assessment_id':links[-1].id,'quote':scenario['text'],
+        'before_pending':before_count,'after_pending':sum(a.hypothesis_id==h.id and a.status=='Pending' for a in p.assessments),
+        'new_links':sum(a.id not in old_ids for a in links),'before_recommendation':before['recommendation'],
+        'after_recommendation':hypothesis_thesis(p,h.id)['recommendation'],'at':p.ai_report['generated_at'],
+        **SCENARIO_STORIES[scenario_id]}
+    return p
+
+
 def ollama_models():
     with urlopen(OLLAMA_URL+"/api/tags",timeout=5) as response:
         return [m["name"] for m in json.load(response)["models"]]

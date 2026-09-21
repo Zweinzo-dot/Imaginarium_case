@@ -18,7 +18,7 @@ No account or API key is needed for demo mode. Each browser session has its own 
 ## Suggested ten-minute review
 
 1. Open **Dashboard** for activity and retention metrics. The recorded activity ends on September 20, 2026; this is a historical demo, not live telemetry.
-2. Open **AI analysis**, keep **Demo scenarios**, and click **Analyze workspace**. Read **Preliminary findings**. These are labeled prepared interpretations of calculated metrics and reviewed evidence, not live model output.
+2. Open **AI analysis**, keep **Demo scenarios**, and click **Analyze workspace**. Then choose **Try a scenario > Run selected demo scenario**. Compare the clarity, affordability and workplace-trigger findings in **What changed in this demo**. Use the before/after table and **Review this scenario evidence** button to inspect the new pending link. Open **Overall workspace findings** to read **Preliminary findings**. These are labeled prepared interpretations of calculated metrics and reviewed evidence, not live model output.
 3. In **Hypotheses**, inspect H3, H4 and H5. The seeded evidence illustrates support, mixed evidence and counterevidence. Check both sides and freshness before considering a direction. Recommendations can change as the data or review dates change.
 4. Open **Ask your data**. Keep Does and Research to exclude interview evidence, run analysis, and read the summary above the chart. Blue means supports, red contradicts, and light blue unclear. Expand the underlying data and download the result.
 5. Change Analyze to **Daily active users**, select a date range and run again. Counts are unique customers per day. Monthly charts distinguish partial from complete months in the data table.

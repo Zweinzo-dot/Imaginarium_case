@@ -192,6 +192,8 @@ def analyze_workspace(project, api_key, model, client=None, progress=None, provi
                      "summary_version":2,"new_links":added,"batches":len(work),"sources_analyzed":len(records),
                      "findings":report.model_dump()["findings"],"metrics":segment_metrics(p),
                      "citations":{i:lookup[i] for f in report.findings for i in f.assessment_ids}}
+        if old.get('scenario_run'):
+            p.ai_report['scenario_run']=old['scenario_run']
         return p
     finally:
         if owned: client.close()
